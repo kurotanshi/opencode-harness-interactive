@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 
 const props = defineProps({
   step: { type: Object, required: true },
@@ -8,6 +8,8 @@ const props = defineProps({
 const openCards = ref({})
 const picked = ref(null)
 const checks = ref({})
+const labChecks = ref({})
+const copiedId = ref(null)
 
 watch(
   () => props.step,
@@ -15,8 +17,12 @@ watch(
     openCards.value = {}
     picked.value = null
     checks.value = {}
+    labChecks.value = {}
+    copiedId.value = null
   },
 )
+
+const isLab = computed(() => props.step.type === 'lab' || props.step.type === 'try')
 
 function toggleCard(i) {
   openCards.value[i] = !openCards.value[i]
@@ -30,7 +36,28 @@ function toggleCheck(id) {
   checks.value[id] = !checks.value[id]
 }
 
+function toggleLab(id) {
+  labChecks.value[id] = !labChecks.value[id]
+}
+
 const allChecked = () => (props.step.items || []).every((it) => checks.value[it.id])
+
+const allLabChecked = () => {
+  const tasks = props.step.tasks || []
+  return tasks.length > 0 && tasks.every((t) => labChecks.value[t.id])
+}
+
+async function copyCommand(text, id) {
+  try {
+    await navigator.clipboard.writeText(text)
+    copiedId.value = id
+    window.setTimeout(() => {
+      if (copiedId.value === id) copiedId.value = null
+    }, 1600)
+  } catch {
+    copiedId.value = null
+  }
+}
 </script>
 
 <template>
@@ -108,6 +135,50 @@ const allChecked = () => (props.step.items || []).every((it) => checks.value[it.
           <p class="hint">{{ item.body }}</p>
         </div>
       </div>
+    </div>
+
+    <div v-if="isLab" class="lab">
+      <div class="lab-badge">動手實驗室</div>
+      <p v-if="step.goal" class="lab-goal"><strong>目標：</strong>{{ step.goal }}</p>
+      <ol class="lab-tasks">
+        <li
+          v-for="(task, i) in step.tasks || []"
+          :key="task.id"
+          class="lab-task"
+          :class="{ on: labChecks[task.id] }"
+        >
+          <button
+            class="lab-check"
+            type="button"
+            :aria-pressed="!!labChecks[task.id]"
+            :aria-label="'勾選任務 ' + (i + 1)"
+            @click="toggleLab(task.id)"
+          >
+            <span class="check-box">{{ labChecks[task.id] ? '✓' : '' }}</span>
+          </button>
+          <div class="lab-main">
+            <div class="lab-do">
+              <span class="lab-num">{{ i + 1 }}</span>
+              <span>{{ task.do }}</span>
+            </div>
+            <div v-if="task.command" class="lab-cmd">
+              <pre class="lab-code"><code>{{ task.command }}</code></pre>
+              <button
+                class="copy-btn"
+                type="button"
+                @click="copyCommand(task.command, task.id)"
+              >
+                {{ copiedId === task.id ? '已複製' : '複製' }}
+              </button>
+            </div>
+            <p v-if="task.expect" class="lab-expect"><span>預期看到</span>{{ task.expect }}</p>
+            <p v-if="task.hint" class="lab-hint" :class="{ show: labChecks[task.id] }">
+              <span>卡關提示</span>{{ task.hint }}
+            </p>
+          </div>
+        </li>
+      </ol>
+      <p v-if="allLabChecked()" class="lab-success">全部任務勾完了，很棒！可以按下一步。</p>
     </div>
 
     <p v-if="step.note" class="note">{{ step.note }}</p>

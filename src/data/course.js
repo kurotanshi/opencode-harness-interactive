@@ -10,8 +10,8 @@ import ch9 from './ch9.js'
 
 export const course = {
   title: '駕馭工坊',
-  subtitle: '一步一步學會指揮 AI 寫程式。',
-  audience: '給大約 10 到 15 歲的同學，句子短、比喻多；專有名詞會先翻譯成生活語言。',
+  subtitle: '動手跟著做的工坊：打開終端機／OpenCode，照步驟操作、勾選，再往下一步。',
+  audience: '給大約 10 到 15 歲的同學。句子清楚、指令用「打開／貼上／按」；實驗室是主軸，概念文字只是輔助。',
   footnote: '進度存在這台裝置的瀏覽器 localStorage，不會上傳。換瀏覽器或清資料就會重新開始。內容依 OpenCode 常見用法改寫，細節請以官方文件為準。',
   chapters: [ch1, ch2, ch3, ch4, ch5, ch6, ch7, ch8, ch9],
 }

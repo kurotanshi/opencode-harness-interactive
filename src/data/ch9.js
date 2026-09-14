@@ -1,252 +1,203 @@
 export default {
-  id: 'ch9',
+  id: "ch9",
   number: 9,
-  title: 'WorkDash 實戰',
-  tagline: '用一個工作儀表板故事，把整條 Harness 從提問走到沉澱。',
-  intro: 'WorkDash 是想像中的「我的工作儀表板」：看到待辦、進度、摘要。這一章用它練習問清楚需求、除錯、跨 Session 與多模態修 UI，最後用 AI 摘要把接力棒交出去，真正把 Harness 走完一圈。',
+  title: "WorkDash 實戰",
+  tagline: "提問→規格→除錯 skill→摘要沉澱——整條跟著作。",
+  intro: "用 WorkDash 故事把 Harness 走完：Question 釐清、除錯 Skill、換 Session、UI 描述與摘要沉澱。",
   sections: [
     {
-      id: '9-1',
-      title: '設計與 Question 工具釐清需求',
-      goal: '在寫第一行之前，先讓助手把模糊願望問成可做的規格，並寫進規則檔。',
+      id: "9-1",
+      title: "設計與 Question 工具釐清需求",
+      goal: "為 WorkDash 用提問產出規格，並寫進 AGENTS.md。",
       steps: [
         {
-          type: 'text',
-          title: 'WorkDash 是什麼？',
+          type: "text",
+          title: "WorkDash 故事",
           body: [
-            '想像一個給自己用的小儀表板：今天要做的事、進行中的專案、AI 整理的摘要。它像腳踏車碼表，不是太空船駕駛艙。',
-            '它不是要你在本課做出完整產品，而是一條可以走完的故事線：從提問、計畫、實作、驗證到沉澱。',
-            '真實專案也一樣：先問「給誰用、最重要的三個畫面、沒有哪些功能也沒關係」。模糊的「做一個酷的儀表板」最容易做出你自己也不想維護的東西。',
-          ],
+            "WorkDash＝給自己的工作儀表板（待辦／進度／摘要）。先問清楚再寫碼。"
+          ]
         },
         {
-          type: 'metaphor',
-          title: 'Question 工具像舉手發問',
+          type: "lab",
+          title: "實驗室：Question 風格釐清",
           body: [
-            'OpenCode 有 question 這類工具，讓 Agent 中途停下來問你。好的助手不會假裝懂。',
-            '它會問：資料存在哪？要不要登入？手機先還是電腦先？第一版不做什麼？這些問題看起來很基本，卻決定後面會不會大改。',
-            '你也可以主動要求：「先用問題把規格問清楚，得到我同意前不要改檔。」把提問變成流程，而不是偶爾的客氣。',
+            "新建 workdash 練習資料夾或在現有 labs 下建立。"
           ],
-          metaphor: {
-            title: '點餐前先問辣不辣',
-            body: '如果你說「做一個酷的儀表板」，它可能做出太空船駕駛艙。問清楚口味與份量，才能做出腳踏車儀表：簡單、看得到、每天願意打開。',
-          },
+          tasks: [
+            {
+              id: "w1",
+              do: "建立資料夾並進入。",
+              expect: "路徑在 workdash。",
+              command: "mkdir -p ~/opencode-labs/workdash && cd ~/opencode-labs/workdash"
+            },
+            {
+              id: "w2",
+              do: "啟動 OpenCode，貼上提問要求（Plan）。",
+              expect: "它一次問一題或列出問題請你答。",
+              command: "我們要做 WorkDash 第一版。請用提問幫我釐清：使用者是誰、第一版只做哪三件事、成功長怎樣、明確不做什麼。一次只問一題，得到我同意前不要改檔。"
+            },
+            {
+              id: "w3",
+              do: "回答完後，請它把規格寫成 SPEC.md。",
+              expect: "SPEC.md 有四區塊。",
+              command: "請把我們的共識寫成 SPEC.md，含：使用者、三件事、成功樣貌、不做什麼。"
+            },
+            {
+              id: "w4",
+              do: "把規格重點寫進 AGENTS.md（可 /init 後再改）。",
+              expect: "AGENTS.md 看得到 WorkDash 目標。",
+              command: "/init"
+            }
+          ],
+          goal: "有 SPEC.md 與更新過的規則。"
         },
         {
-          type: 'checklist',
-          title: '開幹前的問題清單',
-          body: ['把願望變成規格，至少勾這些：'],
+          type: "checklist",
+          title: "開幹前",
+          body: [
+            "勾過才進 Build："
+          ],
           items: [
             {
-              id: 'd1',
-              text: '使用者是誰？只有我，還是全班？',
-              hint: '人數一變，權限與隱私就變。只有自己用，和要登入的多人版，是兩個專案。',
+              id: "d1",
+              text: "知道使用者是誰"
             },
             {
-              id: 'd2',
-              text: '第一版只做哪三件事？',
-              hint: '例如：列出待辦、標記完成、看一週摘要。超過三件，就寫進「以後再做」。',
+              id: "d2",
+              text: "第一版只做三件事"
             },
             {
-              id: 'd3',
-              text: '成功長什麼樣子？',
-              hint: '「我能在手機上勾完三筆待辦」比「要很炫」更好驗收。可觀察、可重複。',
+              id: "d3",
+              text: "成功可驗收"
             },
             {
-              id: 'd4',
-              text: '明確說不做什麼。',
-              hint: '第一版不做即時聊天、不做付款、不做複雜權限。負向範圍能省下大量跑飛。',
-            },
-          ],
-        },
-        {
-          type: 'flow',
-          title: '建議節奏',
-          body: ['把提問變成可留下的專案資產：'],
-          flow: [
-            {
-              n: 1,
-              title: 'Plan + Question',
-              body: '讓它提問，你回答。產出短規格（誰用、三件事、成功長怎樣、不做什麼）。',
-            },
-            {
-              n: 2,
-              title: '寫進 AGENTS.md',
-              body: '把已決定的事變成專案規則，而不是只留在聊天。下一個 Session 才接得住。',
-            },
-            {
-              n: 3,
-              title: '畫資訊架構',
-              body: '哪些頁、哪些按鈕、資料從哪來。仍先不要大改程式；草圖可以是 bullet list。',
-            },
-            {
-              n: 4,
-              title: 'Build 最小畫面',
-              body: '先做出能點的骨架，再填細節。每一小步都有驗收，比較不容易蓋出迷宮。',
-            },
-          ],
-        },
-      ],
+              id: "d4",
+              text: "寫了不做什麼"
+            }
+          ]
+        }
+      ]
     },
     {
-      id: '9-2',
-      title: '除錯、跨界與換方法',
-      goal: '當畫面壞掉時，會換 Skill、換 Session、換模型，而不是死磕同一句 prompt。',
+      id: "9-2",
+      title: "除錯、跨界與換方法",
+      goal: "建立除錯 Skill 短檔，並練習換 Session／換方法。",
       steps: [
         {
-          type: 'text',
-          title: '除錯 Skill 是重播按鈕的說明書',
+          type: "text",
+          title: "壞了不要死磕同一句",
           body: [
-            '把「怎麼除錯 WorkDash」寫成 Skill：重現步驟、看主控台、縮小到哪個元件、提出一個假設、只改一處驗證。',
-            '下次不管換哪個模型，只要載入這張技能卡，節奏就還在——你不是依賴某一顆腦的臨場發揮。',
-            'Skill 不會自動變聰明，但它讓「好的除錯習慣」可重用，這正是 Harness：把一次學到的方法，變成系統的一部分。',
-          ],
+            "可換 Skill、換 Session、換模型。先建立除錯技能卡。"
+          ]
         },
         {
-          type: 'reveal',
-          title: '跨 Session、模型、平台',
-          body: ['卡住時，這三個旋鈕可以輪流轉——一次一個，並留下書面結論。'],
-          cards: [
-            {
-              tag: 'Session',
-              title: '對話太髒就換本子',
-              body: '錯誤假設已經污染上下文時，把結論寫進檔案（或 AGENTS.md／待辦），開新 Session 比較乾淨。換本前先沉澱，否則新本子也會立刻再髒。',
-            },
-            {
-              tag: '模型',
-              title: '換大腦試一次',
-              body: '同一提示換模型，有時立刻看穿。但先固定再現步驟與證據（截圖、錯誤訊息），不然你分不清是誰幫忙，也學不到可重複的方法。',
-            },
-            {
-              tag: '平台',
-              title: '換駕駛艙也可以',
-              body: 'OpenCode 卡住時，規則若在 AGENTS.md / CLAUDE.md，Claude Code 或 Codex 才接得住。換平台不是逃避，前提是單一可信來源還在。',
-            },
-          ],
-        },
-        {
-          type: 'text',
-          title: '多模態修 UI',
+          type: "lab",
+          title: "實驗室：除錯技能＋假故障",
           body: [
-            '把實際畫面截圖丟給助手：「這兩個卡片在手機上重疊了」。文字描述空間很容易含糊——「有點擠」「怪怪的」對模型不夠。',
-            '一張圖常常比三段形容詞有用。它提出修改後，你再截圖確認。用眼睛閉環，不要只聽「我修好了」。',
-            '若有瀏覽器 MCP 或 Playwright，也可以請它開本機頁操作；仍建議你自己看最終畫面。工具是助手，你是騎士。',
+            "在 workdash 專案。"
           ],
+          tasks: [
+            {
+              id: "d1",
+              do: "建立 skill 檔。",
+              expect: "路徑存在。",
+              command: "mkdir -p .opencode/skills/workdash-debug"
+            },
+            {
+              id: "d2",
+              do: "寫入 SKILL.md。",
+              expect: "有重現→訊息→假設→只改一處。",
+              command: "---\nname: workdash-debug\ndescription: WorkDash 除錯：重現、收集訊息、單一假設、只改一處\n---\n1. 請使用者寫重現步驟\n2. 收集錯誤文字或截圖描述\n3. 提出一個假設\n4. 只改一處並說明驗證方式\n5. 失敗則換假設，不要一次改爆\n"
+            },
+            {
+              id: "d3",
+              do: "假裝「待辦勾了沒存檔」，請它用該技能，先不要改檔。",
+              expect: "它先問重現與假設。",
+              command: "請用 workdash-debug 技能。問題：勾選待辦後重新整理就消失。先不要改檔。"
+            },
+            {
+              id: "d4",
+              do: "開新 Session，只帶 SPEC.md＋錯誤描述再問一次，體驗乾淨桌子。",
+              expect: "新 Session 仍能靠檔案接上。",
+              command: "請讀 SPEC.md。問題：勾選待辦後重整消失。先給假設，不要改檔。"
+            }
+          ],
+          goal: "有 debug skill，並走完一輪假故障。"
+        }
+      ]
+    },
+    {
+      id: "9-3",
+      title: "多模態、摘要與沉澱",
+      goal: "練習描述截圖／UI、產出摘要接力棒，完成 WorkDash 工坊閉環。",
+      steps: [
+        {
+          type: "text",
+          title: "看得到與留得下",
+          body: [
+            "UI 問題可貼截圖（若環境支援）或文字描述版面。結束時一定要沉澱到檔案。"
+          ]
         },
         {
-          type: 'choose',
-          title: '同一句 prompt 打了八次',
-          prompt: '按鈕還是歪的。你已經把同一句「請修好」送了八次。下一步？',
+          type: "lab",
+          title: "實驗室：UI 描述＋摘要沉澱",
+          body: [
+            "走完最後一哩。"
+          ],
+          tasks: [
+            {
+              id: "u1",
+              do: "建立 UI.md，用文字描繪你想像的首屏（三個區塊）。",
+              expect: "有標題／待辦／摘要區描述。",
+              command: "cat > UI.md << 'EOF'\n# WorkDash 首屏\n- 上方：今日標題與日期\n- 中間：待辦列表（可勾選）\n- 右側或下方：一週摘要（三句）\nEOF"
+            },
+            {
+              id: "u2",
+              do: "請 OpenCode 依 UI.md 列出實作順序（Plan），仍先不寫大段程式。",
+              expect: "有分步順序。",
+              command: "請讀 SPEC.md 與 UI.md，用 Plan 列出最小實作順序（5 步內）。不要改檔。"
+            },
+            {
+              id: "u3",
+              do: "請它把本日決策寫成 SESSION-SUMMARY.md：做了什麼、沒做什麼、下一步。",
+              expect: "摘要檔存在且可交接。",
+              command: "請建立 SESSION-SUMMARY.md：今日決策、已完成、未完成、下一步第一個動作。"
+            },
+            {
+              id: "u4",
+              do: "對照第 8 章審計：在 AUDIT.md 或這裡寫一句「WorkDash 讓我練到哪一層」。",
+              expect: "有一句自我定位。"
+            }
+          ],
+          goal: "有 UI 筆記與 SESSION-SUMMARY.md。"
+        },
+        {
+          type: "choose",
+          title: "最重要的沉澱？",
+          prompt: "跨天接續 WorkDash，最重要？",
           options: [
             {
-              id: 'a',
-              label: '再送八次，展現毅力。',
+              id: "a",
+              label: "只靠記憶",
               correct: false,
-              feedback: '這是無底洞除錯。同一招無效，就要換證據與方法，而不是加音量。',
+              feedback: "記憶會丟。"
             },
             {
-              id: 'b',
-              label: '換方法：截圖、縮小元件、換假設，必要時換模型或開新 Session。',
+              id: "b",
+              label: "SPEC／AGENTS／摘要檔＋可接續 Session",
               correct: true,
-              feedback: '對。轉一個旋鈕，並給新證據。把新假設寫下來，才知道下一招有沒有真的不同。',
+              feedback: "對，檔案才是接力棒。"
             },
             {
-              id: 'c',
-              label: '刪除整個專案，當作沒發生過。',
+              id: "c",
+              label: "每天換全新規則檔名",
               correct: false,
-              feedback: '太大動作了。先縮小範圍到一個元件、一個症狀；真的無解再談重來。',
-            },
-          ],
-        },
-      ],
-    },
-    {
-      id: '9-3',
-      title: 'AI 摘要、待辦，把 Harness 走完',
-      goal: '用摘要與待辦當接力棒，讓專案在下一次打開時還活著；並複習整條 Harness 閉環。',
-      steps: [
-        {
-          type: 'text',
-          title: '摘要不是作文比賽',
-          body: [
-            '請助手寫摘要：做了什麼、沒做什麼、已知坑、下一次第一個動作。短、可執行、對得起下一個你。',
-            '待辦要可勾選、可驗證。例如「手機寬度 375 時卡片不重疊」，而不是「UI 美化」。美化無法驗收，具體症狀可以。',
-            'WorkDash 自己也可以顯示這些待辦。狗咬尾巴：儀表板追蹤儀表板的建造——這其實很適合練習「把工作狀態外顯化」。',
-          ],
-        },
-        {
-          type: 'flow',
-          title: '把 Harness 走完的一圈',
-          body: ['把前面八章的零件串成一圈閉環：'],
-          flow: [
-            {
-              n: 1,
-              title: '目標',
-              body: 'Question 問清楚。寫進規則（AGENTS.md）。單一可信來源開始成形。',
-            },
-            {
-              n: 2,
-              title: '計畫',
-              body: 'Plan 拆步驟。你批准順序與範圍。先地圖，再上路。',
-            },
-            {
-              n: 3,
-              title: '實作',
-              body: 'Build 動手。權限守住危險動作。必要時派 Explore／Scout，但不要並行踩同一檔。',
-            },
-            {
-              n: 4,
-              title: '驗證',
-              body: '測試、截圖、清單。審查員可獨立看一眼。你讀懂 diff 再接受。',
-            },
-            {
-              n: 5,
-              title: '沉澱',
-              body: '更新 AGENTS.md、Skill、待辦與摘要。下次接著走。這一步常被省略，卻是駕馭與「會用」的分界。',
-            },
-          ],
-        },
-        {
-          type: 'checklist',
-          title: '課程結束前的自我檢查',
-          body: ['若多數能勾，你就不是只會按按鈕了：'],
-          items: [
-            {
-              id: 'f1',
-              text: '我能解釋 Harness 不是模型名稱。',
-              hint: '它是駕馭系統：規則、權限、工具、流程與治理。',
-            },
-            {
-              id: 'f2',
-              text: '我知道規則、權限、角色、模型是不同旋鈕。',
-              hint: '一次轉一個。出問題先分類：平台／Agent／模型。',
-            },
-            {
-              id: 'f3',
-              text: '我知道換平台時，要靠單一可信來源接手。',
-              hint: '文件比聊天紀錄長壽；AGENTS.md 優先，CLAUDE.md 常當後備。',
-            },
-            {
-              id: 'f4',
-              text: '我會檢查結果，而不是閉眼接受。',
-              hint: '你才是騎士。截圖、測試、讀 diff，都是煞車與後照鏡。',
-            },
-          ],
-        },
-        {
-          type: 'metaphor',
-          title: '下課時的畫面',
-          metaphor: {
-            title: '把腳踏車停好，而不是丟在路中',
-            body: '摘要、待辦、規則檔就是停車架。下次你或另一個 Agent 來，還能立刻騎走，不必先找輪子在哪。這就是把 Harness 走完：不是永遠不停地騎，而是每次收工都讓下一段路接得上。',
-          },
-          body: [
-            '恭喜你走到第九章。接下來請回課程地圖，把還沒過的關卡補齊，並試著在一個真實小專案上，把「提問→計畫→實作→驗證→沉澱」跑完一圈。',
-            '工具會更新，按鈕會改名；你帶走的是駕馭方式。若某指令與官方文件不一致，以官方為準——原理比較耐用。',
-          ],
-        },
-      ],
-    },
+              feedback: "會失去單一可信來源。"
+            }
+          ]
+        }
+      ]
+    }
   ],
   quiz: [
     {

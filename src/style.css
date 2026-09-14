@@ -381,3 +381,163 @@ button { cursor: pointer; }
   color: var(--ink-soft);
   font-size: 0.85rem;
 }
+
+/* —— Lab / hands-on workshop —— */
+.lab {
+  margin-top: 14px;
+  padding: 16px;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #fff 0%, var(--accent-soft) 160%);
+  border: 1px solid #b7d8ce;
+}
+.lab-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-dark);
+  background: #fff;
+  border: 1px solid #b7d8ce;
+  border-radius: 999px;
+  padding: 3px 10px;
+  margin-bottom: 10px;
+}
+.lab-goal {
+  margin: 0 0 12px;
+  color: var(--ink);
+  font-size: 0.98rem;
+}
+.lab-tasks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+.lab-task {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 10px;
+  align-items: start;
+  padding: 12px;
+  border-radius: 14px;
+  background: var(--card);
+  border: 1px solid var(--line);
+}
+.lab-task.on {
+  background: var(--good-soft);
+  border-color: #b7d8c4;
+}
+.lab-check {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  margin-top: 2px;
+}
+.lab-check .check-box {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  border: 1.5px solid var(--ink);
+  display: grid;
+  place-items: center;
+  background: #fff;
+  font-size: 12px;
+}
+.lab-task.on .lab-check .check-box {
+  background: var(--ink);
+  color: white;
+}
+.lab-main { min-width: 0; }
+.lab-do {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.lab-num {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: #fffaf2;
+  font-size: 0.78rem;
+  display: grid;
+  place-items: center;
+  margin-top: 1px;
+}
+.lab-cmd {
+  position: relative;
+  margin: 0 0 8px;
+  border-radius: 12px;
+  background: #1c1916;
+  border: 1px solid #2e2924;
+  overflow: hidden;
+}
+.lab-code {
+  margin: 0;
+  padding: 12px 72px 12px 14px;
+  overflow-x: auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: #f4efe6;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.lab-code code {
+  font-family: inherit;
+  color: inherit;
+}
+.copy-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  border: 0;
+  border-radius: 8px;
+  padding: 5px 10px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: var(--accent);
+  color: #fffaf2;
+}
+.copy-btn:hover { background: var(--accent-dark); }
+.lab-expect,
+.lab-hint {
+  margin: 6px 0 0;
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  line-height: 1.55;
+}
+.lab-expect span,
+.lab-hint span {
+  display: inline-block;
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  margin-right: 6px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: var(--paper-2);
+  color: var(--ink-soft);
+  vertical-align: 1px;
+}
+.lab-hint { display: none; }
+.lab-hint.show { display: block; }
+.lab-hint span {
+  background: var(--ember-soft);
+  color: var(--ember);
+}
+.lab-success {
+  margin: 14px 0 0;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--good-soft);
+  color: var(--good);
+  font-weight: 600;
+  font-size: 0.92rem;
+}

@@ -1,269 +1,245 @@
 export default {
-  id: 'ch4',
+  id: "ch4",
   number: 4,
-  title: 'Agent + Subagent',
-  tagline: '一個人當隊長，也可以請隊友去跑腿——但鑰匙與桌子要分開。',
-  intro: '主 Agent 負責跟你說話。Subagent 是被派出的隊友，常常有自己的上下文。這一章練習何時並打、何時獨立審查、如何組成專業團隊，並認識 General、Explore、Scout。',
+  title: "Agent + Subagent",
+  tagline: "自建審查員、平行調查、組三人隊——動手設定。",
+  intro: "建立 subagent、練習並行與獨立審查，並寫下你的小隊分工。主軸是真實檔案與 @ 呼叫。",
   sections: [
     {
-      id: '4-1',
-      title: '簡介與自建測試',
-      goal: '知道主 Agent 和 Subagent 的差別，認識內建幫手，並用一個「只審查不准改檔」的小實驗感覺看看。',
+      id: "4-1",
+      title: "簡介與自建測試",
+      goal: "建立一個「只審查不准改檔」的 subagent，並用 @ 叫它。",
       steps: [
         {
-          type: 'text',
-          title: '隊長與跑腿的人',
+          type: "text",
+          title: "隊長與跑腿",
           body: [
-            '你平常打字對話的對象，是主 Agent（primary）。OpenCode 內建 Build 與 Plan，常用 Tab 切換。',
-            'Subagent 是主 Agent 可以派出的幫手，也可以用 @名字 手動叫出來。它們常有自己的桌子（獨立 Context），找完資料只把重點帶回來。',
-            '內建三個常見幫手：General（較通用）、Explore（只讀，適合找檔）、Scout（只讀，適合查外部文件與依賴原始碼）。先記住「誰能改檔、誰只能看」，比背完整設定重要。',
+            "主 Agent（Build/Plan）跟你對話；Subagent 可被派出或用 @名字 叫出，常有獨立 Context。",
+            "內建幫手含 General、Explore、Scout。先做一個最小自訂審查員。"
           ],
+          note: "也可用互動指令 opencode agent create。檔案可放 .opencode/agents/。"
         },
         {
-          type: 'metaphor',
-          title: '為什麼要分身？',
-          metaphor: {
-            title: '不要讓全班同時擠在同一張書桌',
-            body: '主對話那張書桌很快會堆滿草稿、搜尋結果和失敗嘗試。派一位同學去圖書館找資料，他有自己的桌子，找完只把重點帶回來——主桌才還有空間討論真正的決定。',
-          },
+          type: "lab",
+          title: "實驗室：自建審查員",
           body: [
-            'Subagent 常常有獨立 Context。它不會把整段找資料的雜訊，全部倒進你的主對話。',
-            '代價是：摘要可能漏一句關鍵限制，所以隊長（你與主 Agent）仍要抽查。分身是為了乾淨與分工，不是為了「比較多就比較強」。',
+            "在練習專案執行。"
           ],
+          tasks: [
+            {
+              id: "s1",
+              do: "建立 agents 目錄。",
+              expect: "看得到 .opencode/agents/",
+              command: "mkdir -p .opencode/agents"
+            },
+            {
+              id: "s2",
+              do: "建立 reviewer.md（檔名會變成 agent 名）。貼上內容並存檔。",
+              expect: "檔案存在。",
+              command: "---\ndescription: 只審查 README 錯字與不清處，不准改檔\nmode: subagent\npermission:\n  edit: deny\n  bash: deny\n---\n你是嚴格的文件審查員。只讀取並回報問題清單（檔名＋句子＋建議）。\n不要修改任何檔案，不要執行會改動系統的指令。\n若無法確定，就列出「需要人工確認」項目。\n"
+            },
+            {
+              id: "s3",
+              do: "重開或重新載入專案後，在對話用 @ 叫它審查 README。",
+              expect: "它回報問題清單，而不是直接改 README。",
+              command: "@reviewer 請審查 README.md 的錯字與不通順處，只輸出清單。",
+              hint: "若找不到 agent，確認路徑是 .opencode/agents/reviewer.md，或改用 opencode agent create。"
+            },
+            {
+              id: "s4",
+              do: "用 git status 或看檔案時間，確認 README 沒被它改寫。",
+              expect: "沒有未預期的檔案修改。",
+              command: "git status",
+              hint: "沒有 git 就手動打開 README 對照。"
+            }
+          ],
+          goal: "@ 叫出審查員，且它沒改檔。"
         },
         {
-          type: 'flow',
-          title: '自建測試：請它找錯字但不准改檔',
-          body: ['用一個小實驗，驗證「角色描述 + 權限」是否真的生效。'],
-          flow: [
-            {
-              n: 1,
-              title: '寫一個小 Agent',
-              body: '描述：審查 README 的錯字與不通順處。權限：edit 設成 deny，讓它只能報告。',
-            },
-            {
-              n: 2,
-              title: '放在專案或全域 agents 資料夾',
-              body: '檔名會變成 Agent 名稱。也可用 opencode.json 設定。建立時也可用互動指令 opencode agent create，它會問你權限。',
-            },
-            {
-              n: 3,
-              title: '用 @ 叫它',
-              body: '看它是否只回報問題清單、不動手改檔。若它偷偷改了，代表權限或描述還沒設對。',
-            },
-            {
-              n: 4,
-              title: '通過標準',
-              body: '它找得到問題，而且沒有偷偷改檔，才算成功。這就是最小的「角色測試」。',
-            },
-          ],
-          note: '建立 Agent 也可用互動指令 opencode agent create，它會問你權限。細節以官方文件為準。',
-        },
-        {
-          type: 'text',
-          title: '什麼時候該派 Subagent？',
-          body: [
-            '適合：大範圍搜尋、讀很多檔、查外部文件、做一次獨立審查——這些容易把主對話塞爆。',
-            '不適合：你需要一步步共同決策、或修改彼此緊緊相依的同一條鏈。那時留在主對話、用 Plan 講清楚，通常更穩。',
-          ],
-        },
-      ],
-    },
-    {
-      id: '4-2',
-      title: '並行與 Context 影響',
-      goal: '理解同時派出多個幫手的好處與代價，知道什麼時候不該並行。',
-      steps: [
-        {
-          type: 'text',
-          title: '並行像分組報告',
-          body: [
-            '主 Agent 可以同時派出多個 Subagent：一個找測試、一個查文件、一個看樣式。這叫並行。',
-            '像牆壁油漆可以一邊乾、一邊有人去買膠帶——互不擋路的事，適合一起做。',
-            '但每個幫手都要耗模型時間，也會增加費用與等待。並行不是免費加速器；亂派還可能搶著改同一檔。',
-          ],
-        },
-        {
-          type: 'reveal',
-          title: '對 Context 的三種影響',
-          body: ['並行會改變「雜訊放哪、風險從哪來」。點卡片看清楚：'],
-          cards: [
-            {
-              tag: '好處',
-              title: '主桌較乾淨',
-              body: '雜訊留在子 Session。主對話只收回摘要，書包比較不容易被搜尋過程塞爆，隊長還能繼續跟你對齊目標。',
-            },
-            {
-              tag: '代價',
-              title: '摘要會漏',
-              body: '幫手可能漏掉一句關鍵限制（例如「不要改 API 形狀」）。隊長要抽查摘要，必要時叫它附檔名與引用。',
-            },
-            {
-              tag: '風險',
-              title: '搶著改同一檔',
-              body: '兩個幫手同時改同一個檔案，會像兩人搶同一張考卷，結果難以合併。要先分工：誰改哪裡、誰只讀。',
-            },
-          ],
-        },
-        {
-          type: 'choose',
-          title: '什麼時候不要並行？',
-          prompt: '下列哪種任務，較不適合同時派出很多 Subagent？',
+          type: "choose",
+          title: "何時派 Subagent？",
+          prompt: "大範圍搜尋很多檔、怕塞爆主對話。較好？",
           options: [
             {
-              id: 'a',
-              label: '兩個互不相關的調查：一個找文件、一個找測試名稱。',
-              correct: false,
-              feedback: '這種比較適合並行：互不踩腳，最後把兩份摘要合起來即可。',
-            },
-            {
-              id: 'b',
-              label: '必須依序做的同一條修改：先改資料結構，再改所有呼叫它的地方。',
+              id: "a",
+              label: "派 Explore／Subagent 去找，主桌收摘要",
               correct: true,
-              feedback: '對。有先後依賴時，並行容易互相踩腳。應依序做，或先用 Plan 排好再一次改完。',
+              feedback: "對。雜訊留在子桌。"
             },
             {
-              id: 'c',
-              label: '只讀探索兩個資料夾。',
+              id: "b",
+              label: "把所有搜尋結果貼進主對話",
               correct: false,
-              feedback: '只讀探索通常很適合並行，因為大家都不改檔，衝突風險低。',
+              feedback: "書包會爆。"
             },
-          ],
-        },
-      ],
+            {
+              id: "c",
+              label: "永遠不要用 Subagent",
+              correct: false,
+              feedback: "適度使用有幫助。"
+            }
+          ]
+        }
+      ]
     },
     {
-      id: '4-3',
-      title: '獨立 Context 審查員',
-      goal: '讓審查的人不要看到作者的自我辯解，才能比較誠實；並用權限把「審」和「改」分開。',
+      id: "4-2",
+      title: "並行與 Context 影響",
+      goal: "練習一次平行提示：同時請兩個方向調查，但不要搶改同一檔。",
       steps: [
         {
-          type: 'metaphor',
-          title: '為什麼審查要獨立桌子',
+          type: "text",
+          title: "並行像分組報告",
           body: [
-            '如果作者自己檢查自己的作文，很容易「眼瞎」：明明邏輯跳躍，卻覺得「我當下是這樣想的所以沒問題」。',
-            '審查員 Subagent 用獨立 Context，較少被剛才那串「我是這樣想的」影響，比較容易抓到真正的漏洞。',
-            '這不是不信任主 Agent，而是把「創作」與「檢查」拆開——人也常用同樣方法：寫完先放一放，或請同學看。',
-          ],
-          metaphor: {
-            title: '請隔壁班同學改考卷',
-            body: '他沒聽到你解題時的碎念，只看答案紙與題目要求。這樣比較容易抓到漏步驟、自相矛盾，或你自以為合理但其實站不住的地方。',
-          },
+            "可同時派出多個幫手，但費用與摘要風險上升；不要讓兩個幫手改同一檔。"
+          ]
         },
         {
-          type: 'checklist',
-          title: '審查員的好設定',
-          body: ['組一個靠譜審查員，至少勾這幾項：'],
-          items: [
-            {
-              id: 'v1',
-              text: 'edit 設 deny：只准看，不准改。',
-              hint: '改與審要分開，才不會既當選手又當裁判。發現問題應回報，由你或 Build 決定怎麼修。',
-            },
-            {
-              id: 'v2',
-              text: '說明要看什麼：安全、測試、可讀性。',
-              hint: '沒有評分標準，審查會變得空泛，只會說「看起來還行」。',
-            },
-            {
-              id: 'v3',
-              text: '回報要有證據：檔名與原因。',
-              hint: '「感覺不好」不夠。要指出哪裡、為什麼、建議方向（仍可不直接改檔）。',
-            },
+          type: "lab",
+          title: "實驗室：平行調查（只讀）",
+          body: [
+            "用一個提示同時請兩個只讀方向；或連續 @explore 兩次不同問題。"
           ],
+          tasks: [
+            {
+              id: "p1",
+              do: "確認有可讀的 README 與 AGENTS.md。",
+              expect: "兩個檔都在。"
+            },
+            {
+              id: "p2",
+              do: "貼上平行調查提示（要求先不要改檔）。",
+              expect: "它分別整理「文件怎麼說」與「規則怎麼說」，或派出幫手。",
+              command: "先不要改任何檔。請平行完成兩件事並分開回報：A) 從 README 摘要如何使用；B) 從 AGENTS.md 摘要禁區。最後給我兩段摘要。"
+            },
+            {
+              id: "p3",
+              do: "檢查回覆是否分成兩段，且沒有修改檔案。",
+              expect: "git status 乾淨或無新變更。"
+            },
+            {
+              id: "p4",
+              do: "寫下一句反省：這次若叫兩個 Build 同時改 README 會怎樣？",
+              expect: "你能說出「衝突／互相覆蓋」風險。"
+            }
+          ],
+          goal: "你得到兩份調查，主對話仍清楚。"
         },
         {
-          type: 'choose',
-          title: '誰來當審查員？',
-          prompt: '剛寫完功能的同一個主對話，立刻叫它「你審查一下你自己」，可能有什麼問題？',
+          type: "choose",
+          title: "不要並行？",
+          prompt: "兩個幫手要改同一個設定檔。",
           options: [
             {
-              id: 'a',
-              label: '它太了解自己的意圖，容易幫自己說話。',
+              id: "a",
+              label: "照樣並行比較快",
+              correct: false,
+              feedback: "容易互蓋。應串行或一人改。"
+            },
+            {
+              id: "b",
+              label: "不要並行，改同一檔要串行",
               correct: true,
-              feedback: '對。所以才要獨立 Context 的審查員，必要時甚至換另一個模型來審。',
+              feedback: "正確。"
             },
             {
-              id: 'b',
-              label: '完全沒問題，模型永遠客觀。',
+              id: "c",
+              label: "關掉所有權限就好",
               correct: false,
-              feedback: '模型會受剛才上下文影響，容易延續同一套假設。',
-            },
-            {
-              id: 'c',
-              label: '只有換電腦才會客觀。',
-              correct: false,
-              feedback: '重點是上下文與權限，不是電腦品牌。換桌子（獨立 Session）比換筆電更關鍵。',
-            },
-          ],
-        },
-      ],
+              feedback: "關權限也不等於解決衝突流程。"
+            }
+          ]
+        }
+      ]
     },
     {
-      id: '4-4',
-      title: '專業團隊',
-      goal: '把角色想成球隊，而不是把所有工作塞給同一個萬能精靈。',
+      id: "4-3",
+      title: "獨立 Context 審查員",
+      goal: "用不同模型或獨立審查流程，避免「自己改自己審」。",
       steps: [
         {
-          type: 'reveal',
-          title: '一支小小職業隊',
-          body: ['點卡片認識常見分工。名字可以自訂，但職責要清楚。'],
-          cards: [
-            {
-              tag: '隊長',
-              title: 'Build / Plan',
-              body: '跟你對齊目標、分配工作、整合結果。Plan 畫地圖，Build 動手。它們是主對話裡的核心角色。',
-            },
-            {
-              tag: '偵察',
-              title: 'Explore',
-              body: '快速找檔、回答「程式在哪裡」「誰呼叫了這個函式」。通常只讀，適合並行派出，避免把主桌塞滿搜尋雜訊。',
-            },
-            {
-              tag: '審查',
-              title: 'Reviewer',
-              body: '獨立看變更。指出風險與缺測，不直接改。權限上常 deny edit，回報要有證據。',
-            },
-            {
-              tag: '研究',
-              title: 'Scout',
-              body: '只讀幫手：查外部文件、依賴倉庫，再帶回重點。不要拿它改你的專案；它的價值是「地圖」，不是「施工」。',
-            },
-          ],
-        },
-        {
-          type: 'text',
-          title: '團隊不是越多越好',
+          type: "text",
+          title: "請隔壁班改考卷",
           body: [
-            '三個清楚角色，好過十個名字華麗但職責重複的 Agent。重複角色會讓隊長不知道該派誰，也讓你維護十份幾乎一樣的說明。',
-            '每個角色要有一句「什麼時候叫我」的描述，主 Agent 才知道該派誰；權限也要不同：偵察少改檔，實作才能改，審查不能改。',
-            '組隊完成後，用一個小任務演練：叫錯人是否明顯、權限是否擋得住。文件寫得漂亮但從不測試，等於沒組隊。',
-          ],
+            "審查最好獨立：不同 Session／不同模型／deny edit。"
+          ]
         },
         {
-          type: 'checklist',
-          title: '組隊前問自己',
-          body: ['加新角色前，先過這三關：'],
-          items: [
-            {
-              id: 'tm1',
-              text: '這個角色有獨特任務嗎？',
-              hint: '如果大家都「什麼都會」，就不是團隊，是分身混亂。',
-            },
-            {
-              id: 'tm2',
-              text: '權限有差嗎？',
-              hint: '權限都一樣，角色就只是換皮；鑰匙相同就談不上職責。',
-            },
-            {
-              id: 'tm3',
-              text: '結果怎麼交回隊長？',
-              hint: '要摘要、列證據，不要丟一坨沒人看的原始紀錄。',
-            },
+          type: "lab",
+          title: "實驗室：獨立審查流程",
+          body: [
+            "沿用 reviewer；加一道人工對照。"
           ],
-        },
-      ],
+          tasks: [
+            {
+              id: "r1",
+              do: "開新 Session（乾淨桌子），@reviewer 審查剛才改過的檔。",
+              expect: "得到問題清單。",
+              command: "@reviewer 請審查目前工作區與文件，列出高／中／低優先問題。不要改檔。"
+            },
+            {
+              id: "r2",
+              do: "（建議）用 /models 暫時換另一顆模型再審一次同一問題。",
+              expect: "兩次審查可對照；若不能換模型就略過並註記。",
+              command: "/models"
+            },
+            {
+              id: "r3",
+              do: "人工抽查清單第一條：打開檔案看是不是真的。",
+              expect: "你標記「屬實／誤報」。"
+            },
+            {
+              id: "r4",
+              do: "把「屬實」的項目寫進 TODO.md，仍先不要大改。",
+              expect: "TODO.md 有至少一條可執行待辦。"
+            }
+          ],
+          goal: "有審查清單，且你抽查過至少一項。"
+        }
+      ]
     },
+    {
+      id: "4-4",
+      title: "專業團隊",
+      goal: "為自己的小專案選 3 個角色並寫進設定或筆記。",
+      steps: [
+        {
+          type: "text",
+          title: "三個清楚角色 > 十個空名",
+          body: [
+            "Build/Plan + Explore + Reviewer（或 Scout 查外部文件）通常夠用。"
+          ]
+        },
+        {
+          type: "lab",
+          title: "實驗室：組你的三人組",
+          body: [
+            "寫 TEAM.md。"
+          ],
+          tasks: [
+            {
+              id: "t1",
+              do: "建立 TEAM.md，列出三角色與權限。",
+              expect: "檔案包含 Build/Plan、Explore、Reviewer。",
+              command: "cat > TEAM.md << 'EOF'\n# 我的 OpenCode 小隊\n- Plan/Build（主）：跟我對話；Build 可改檔但高風險要問\n- Explore（只讀）：找檔、搜尋\n- Reviewer（只讀）：找問題、不准改檔\n規則：改同一檔不並行；審查用獨立 Session\nEOF"
+            },
+            {
+              id: "t2",
+              do: "在 OpenCode 請它複述 TEAM.md，並問何時該叫 Explore。",
+              expect: "它回答與文件一致。",
+              command: "請讀 TEAM.md，用自己的話說：什麼時候該叫 Explore？什麼時候該叫 Reviewer？"
+            },
+            {
+              id: "t3",
+              do: "實際 @explore 或請主 Agent 派 Explore 找「哪個檔寫浮水印相關」。",
+              expect: "得到檔名列表，主對話沒被塞爆。",
+              command: "@explore 找出與浮水印或 README 說明最相關的檔，只回檔名與一句理由。"
+            }
+          ],
+          goal: "TEAM.md 寫明誰做什麼、誰不能改檔。"
+        }
+      ]
+    }
   ],
   quiz: [
     {
