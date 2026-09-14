@@ -1,6 +1,6 @@
 # 駕馭工坊 · OpenCode × Harness 互動課程
 
-這是一套給大約 10–15 歲（以及願意慢慢看的大人）的互動教學網站。  
+這是一套 OpenCode × Harness 互動課程互動教學網站。  
 用短句子、生活比喻，帶你走完 OpenCode 與 Harness 的九章：從安裝、規則檔、Agent、MCP、模型，到真正「駕馭」而不是只會按按鈕。
 
 網站是**單頁應用**（Vite + Vue 3 + Vue Router）。所有單元、步驟、關卡測驗都寫在 `src/data/`，畫面只負責播放內容與記住進度。
