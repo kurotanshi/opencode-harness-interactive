@@ -2,34 +2,40 @@ export default {
   id: "ch2",
   number: 2,
   title: "PDF 浮水印實作導覽",
-  tagline: "建資料夾、寫規則、Plan/Build、/init、/undo——跟著作。",
-  intro: "用「PDF 浮水印」當故事線：你會真正建立專案與 AGENTS.md，處理 CLAUDE.md 接手，走 Plan→Build，並練習 /init 與 /undo。",
+  tagline: "建 harness-workshop、寫規則、Plan/Build、/init、/undo——跟著作。",
+  intro: "用「PDF 浮水印」當故事線：你會真正建立全書共用的 harness-workshop 專案與 AGENTS.md，處理 CLAUDE.md 接手，走 Plan→Build，並練習 /init 與 /undo。之後每一章都回到這個資料夾。",
+  outcome: "完成本章你會做出／做到：在 ~/harness-workshop 裡有 AGENTS.md、samples/、README，並親手用過 Plan/Build、/init、/undo。",
+  youNeed: "第 1 章已能跑 opencode；終端機；約 40 分鐘。",
+  minutes: 40,
+  dependsOn: ["ch1"],
   sections: [
     {
       id: "2-1",
       title: "AGENTS.md：專案級 vs 全域級",
-      goal: "親手建立專案資料夾與 AGENTS.md，分清家規與教室規。",
+      track: "required",
+      goal: "親手建立 harness-workshop 與 AGENTS.md，分清家規與教室規。",
       steps: [
         {
           type: "text",
-          title: "先建一間練習教室",
+          title: "先建全書共用的練習教室",
           body: [
-            "這一節你會新建資料夾、寫 AGENTS.md。全域檔放「每個專案都適用的習慣」；專案檔放「這個專案怎麼建置／測試」。"
+            "從現在起，請固定使用 ~/harness-workshop（Windows：$HOME\\harness-workshop）。這一節你會新建資料夾、寫 AGENTS.md。全域檔放「每個專案都適用的習慣」；專案檔放「這個專案怎麼建置／測試」。"
           ]
         },
         {
           type: "lab",
-          title: "實驗室：建立專案與 AGENTS.md",
+          title: "實驗室：建立 harness-workshop 與 AGENTS.md",
+          track: "required",
           body: [
-            "在終端機操作。路徑可改成你喜歡的練習位置。"
+            "在終端機操作。這就是之後第 3～9 章一直要回來的專案根目錄。"
           ],
           tasks: [
             {
               id: "a1",
-              do: "建立練習資料夾並進入。",
-              expect: "目前路徑在 pdf-watermark 裡。",
-              command: "mkdir -p ~/opencode-labs/pdf-watermark && cd ~/opencode-labs/pdf-watermark",
-              hint: "Windows PowerShell 可用：mkdir $HOME\\opencode-labs\\pdf-watermark; cd $HOME\\opencode-labs\\pdf-watermark"
+              do: "建立全書共用資料夾並進入。",
+              expect: "目前路徑在 harness-workshop 裡。",
+              command: "mkdir -p ~/harness-workshop && cd ~/harness-workshop",
+              hint: "Windows PowerShell 可用：mkdir $HOME\\harness-workshop; cd $HOME\\harness-workshop"
             },
             {
               id: "a2",
@@ -42,18 +48,19 @@ export default {
               id: "a3",
               do: "把下面內容貼進 AGENTS.md 並存檔。",
               expect: "打開檔案看得到「不要覆蓋原檔」等句子。",
-              command: "# AGENTS.md — pdf-watermark 練習專案\n\n## 目標\n幫 PDF 加浮水印。輸入舊檔，輸出新檔，不要覆蓋原檔。\n\n## 指令\n- 安裝：pnpm install（若尚未初始化，先用 npm init -y）\n- 測試：先對單頁樣本跑一次，再處理多頁\n\n## 禁區\n- 不要刪除或覆蓋原始 PDF\n- 不要提交 .env 或任何金鑰\n- 改檔前先用 Plan 說明會動哪些檔\n",
+              command: "# AGENTS.md — harness-workshop\n\n## 目標\n幫 PDF 加浮水印。輸入舊檔，輸出新檔，不要覆蓋原檔。\n本資料夾是駕馭工坊全書共用專案（之後會加 MCP、Skills、審計、WorkDash）。\n\n## 指令\n- 安裝：pnpm install（若尚未初始化，先用 npm init -y）\n- 測試：先對單頁樣本跑一次，再處理多頁\n\n## 禁區\n- 不要刪除或覆蓋原始 PDF\n- 不要提交 .env 或任何金鑰\n- 改檔前先用 Plan 說明會動哪些檔\n",
               hint: "內容要短、可執行。之後改了建置方式，記得同步改這份。"
             },
             {
               id: "a4",
-              do: "（選擇）建立全域家規草稿，只寫跨專案習慣，不要寫 pnpm。",
+              track: "optional",
+              do: "（選做）建立全域家規草稿，只寫跨專案習慣，不要寫 pnpm。",
               expect: "你知道全域常見路徑在使用者設定下的 opencode。",
-              command: "mkdir -p ~/.config/opencode && printf \"%s\\n\" \"# 家規\" \"- 先問再裝套件\" \"- 不要提交 .env\" \"- 回答用繁中\" > ~/.config/opencode/AGENTS.md",
+              command: "mkdir -p ~/.config/opencode && printf \"%s\n\" \"# 家規\" \"- 先問再裝套件\" \"- 不要提交 .env\" \"- 回答用繁中\" > ~/.config/opencode/AGENTS.md",
               hint: "Windows 路徑常在 %USERPROFILE%\\.config\\opencode\\AGENTS.md。若不確定可先做專案級即可。"
             }
           ],
-          goal: "專案根目錄有一份可讀的 AGENTS.md。"
+          goal: "harness-workshop 根目錄有一份可讀的 AGENTS.md。"
         },
         {
           type: "choose",
@@ -68,7 +75,7 @@ export default {
             },
             {
               id: "b",
-              label: "這個專案的 AGENTS.md",
+              label: "這個專案的 AGENTS.md（harness-workshop）",
               correct: true,
               feedback: "正確。教室規放在教室。"
             },
@@ -85,7 +92,8 @@ export default {
     {
       id: "2-2",
       title: "自動讀 CLAUDE.md",
-      goal: "模擬接手：放 CLAUDE.md、確認 AGENTS.md 優先，並整理成單一來源。",
+      track: "required",
+      goal: "在 harness-workshop 模擬接手：放 CLAUDE.md、確認 AGENTS.md 優先，並整理成單一來源。",
       steps: [
         {
           type: "text",
@@ -98,15 +106,16 @@ export default {
         {
           type: "lab",
           title: "實驗室：模擬接手與優先順序",
+          track: "required",
           body: [
-            "仍在 pdf-watermark 資料夾操作。"
+            "回到你的 harness-workshop 專案操作。"
           ],
           tasks: [
             {
               id: "c1",
-              do: "建立一份簡短的 CLAUDE.md（故意寫成用 npm）。",
+              do: "確認你在專案根目錄，再建立一份簡短的 CLAUDE.md（故意寫成用 npm）。",
               expect: "檔案存在且提到 npm。",
-              command: "printf \"%s\\n\" \"# CLAUDE.md\" \"- 用 npm install\" \"- 測試：npm test\" > CLAUDE.md"
+              command: "cd ~/harness-workshop && printf \"%s\n\" \"# CLAUDE.md\" \"- 用 npm install\" \"- 測試：npm test\" > CLAUDE.md"
             },
             {
               id: "c2",
@@ -116,7 +125,7 @@ export default {
             },
             {
               id: "c3",
-              do: "在該資料夾啟動 OpenCode，貼上詢問。",
+              do: "在 harness-workshop 啟動 OpenCode，貼上詢問。",
               expect: "它應以 AGENTS.md 為主回答（提到 pnpm／不覆蓋原檔）。",
               command: "這個專案應該用什麼套件管理工具？請先讀規則檔再回答，並說你主要看了哪一份。"
             },
@@ -159,7 +168,8 @@ export default {
     {
       id: "2-3",
       title: "寫 PDF 浮水印工具（概念流程）",
-      goal: "用 Plan／提示把浮水印任務拆成可驗收步驟；建立樣本與 README。",
+      track: "required",
+      goal: "在 harness-workshop 用 Plan／提示把浮水印任務拆成可驗收步驟；建立樣本與 README。",
       steps: [
         {
           type: "text",
@@ -171,8 +181,9 @@ export default {
         {
           type: "lab",
           title: "實驗室：用 OpenCode 走概念流程",
+          track: "required",
           body: [
-            "在 pdf-watermark 資料夾開啟 OpenCode，先 Tab 切到 Plan。"
+            "回到你的 harness-workshop 專案開啟 OpenCode，先 Tab 切到 Plan。"
           ],
           tasks: [
             {
@@ -185,7 +196,7 @@ export default {
               id: "p2",
               do: "建立樣本資料夾與「原檔保留」說明檔。",
               expect: "看得到 samples/ 與說明文字。",
-              command: "mkdir -p samples output && printf \"%s\\n\" \"把練習 PDF 放 samples/。輸出到 output/。禁止覆蓋 samples。\" > samples/README.md"
+              command: "mkdir -p samples output && printf \"%s\n\" \"把練習 PDF 放 samples/。輸出到 output/。禁止覆蓋 samples。\" > samples/README.md"
             },
             {
               id: "p3",
@@ -236,7 +247,8 @@ export default {
     {
       id: "2-4",
       title: "Plan vs Build；/undo；/init",
-      goal: "實際切換 Plan/Build，跑 /init，並用 /undo 練習回退。",
+      track: "required",
+      goal: "在 harness-workshop 實際切換 Plan/Build，跑 /init，並用 /undo 練習回退。",
       steps: [
         {
           type: "text",
@@ -248,8 +260,9 @@ export default {
         {
           type: "lab",
           title: "實驗室：/init、Plan/Build、/undo",
+          track: "required",
           body: [
-            "仍在練習專案。做每一步就勾。"
+            "仍在 harness-workshop。做每一步就勾。"
           ],
           tasks: [
             {
@@ -290,7 +303,7 @@ export default {
         {
           type: "choose",
           title: "空專案第一步",
-          prompt: "專案是空的，想加浮水印。第一步較好？",
+          prompt: "harness-workshop 剛建好，想加浮水印。第一步較好？",
           options: [
             {
               id: "a",
@@ -318,73 +331,97 @@ export default {
   quiz: [
     {
       id: 'q1',
-      question: '專案的測試指令應該寫在哪裡？',
+      question: '你剛才建立的共用專案資料夾名稱是？',
       options: [
         {
           id: 'a',
-          label: '只寫在你的腦袋裡',
-          correct: false,
-          feedback: '腦袋不是單一可信來源。換 Session 或換人接手就會忘。',
+          label: 'harness-workshop（在家目錄下）',
+          correct: true,
+          feedback: '對！之後每一章都會寫「回到你的 harness-workshop 專案」，不要另開新教室。',
         },
         {
           id: 'b',
-          label: '這個專案的 AGENTS.md',
-          correct: true,
-          feedback: '對。教室規放在教室。全域檔留給跨專案都成立的習慣。',
+          label: 'random-temp-123',
+          correct: false,
+          feedback: '我們固定用 harness-workshop，方便跨章接續。',
         },
         {
           id: 'c',
-          label: '永遠寫在全域檔，讓所有專案共用同一條測試指令',
+          label: '只要叫 Desktop 就可以',
           correct: false,
-          feedback: '不同專案測試方式不同，不要硬套家規，否則助手會在錯誤的教室執行錯誤的指令。',
+          feedback: '桌面可以放捷徑，但課程指定路徑是 ~/harness-workshop。',
         },
       ],
     },
     {
       id: 'q2',
-      question: 'Plan 模式最主要的好處是？',
+      question: '你在 AGENTS.md 寫了「不要覆蓋原檔」。這句話應該？',
       options: [
         {
           id: 'a',
-          label: '它比較會畫畫',
-          correct: false,
-          feedback: '重點不是畫畫，是先想清楚、先問清楚，再改檔。',
+          label: '留在 harness-workshop 的 AGENTS.md，當專案教室規',
+          correct: true,
+          feedback: '對。你實驗室也對過：專案測試／禁區寫在專案 AGENTS.md，不要塞進全域家規。',
         },
         {
           id: 'b',
-          label: '先分析與規劃，降低亂改檔案的風險',
-          correct: true,
-          feedback: '正確。先看地圖，再走路。Build 留給計畫確認之後。',
+          label: '只記在腦袋，不要寫檔',
+          correct: false,
+          feedback: '換 Session 就容易忘；寫進檔案才算數。',
         },
         {
           id: 'c',
-          label: '它不能讀檔案',
+          label: '寫進每一個同學的通訊軟體狀態',
           correct: false,
-          feedback: 'Plan 通常仍可讀與搜尋，只是對改檔、跑指令較謹慎，常會先問你。',
+          feedback: '通訊軟體不是單一可信來源。',
         },
       ],
     },
     {
       id: 'q3',
-      question: '/init 的用途接近？',
+      question: '你做完 /init 之後，正確動作是？',
       options: [
         {
           id: 'a',
-          label: '幫專案整理出 AGENTS.md',
+          label: '打開 AGENTS.md 讀一遍，過時或奇怪的地方手動改',
           correct: true,
-          feedback: '對。它把專案習慣寫成助手看得懂的規則；你仍要讀過並修正過時內容。',
+          feedback: '對。實驗室強調：不要閉眼全收。/init 是草稿助手，你才是編輯。',
         },
         {
           id: 'b',
-          label: '把電腦恢復出廠設定',
+          label: '立刻關掉檔案，永遠不要看',
           correct: false,
-          feedback: '那不是 /init。不要跟系統重設搞混。',
+          feedback: '不讀就無法駕馭規則。',
         },
         {
           id: 'c',
-          label: '自動繳交 GitHub 作業',
+          label: '把金鑰貼進 AGENTS.md 方便下次',
           correct: false,
-          feedback: '它不會幫你交作業。交作業前仍要你自己檢查與推送（若老師要求）。',
+          feedback: '金鑰絕對不要寫進專案檔。',
+        },
+      ],
+    },
+    {
+      id: 'q4',
+      question: '你請 Build 新增 NOTES.md 後又跑 /undo，預期看到？',
+      options: [
+        {
+          id: 'a',
+          label: 'NOTES.md 的變更被撤回（或回到前一狀態）',
+          correct: true,
+          feedback: '正確。你練過敢動手、也知道怎麼退回；需要時還有 /redo。',
+        },
+        {
+          id: 'b',
+          label: '整個硬碟被格式化',
+          correct: false,
+          feedback: '/undo 只撤回最近一步造成的修改，不是格式化。',
+        },
+        {
+          id: 'c',
+          label: '自動推送到 GitHub',
+          correct: false,
+          feedback: '那不是 /undo 的行為。',
         },
       ],
     },

@@ -36,14 +36,24 @@ function persist() {
   )
 }
 
+function isRequiredSection(sec) {
+  return sec.track !== 'optional'
+}
+
 export function useProgress() {
-  const totalSections = computed(() =>
-    course.chapters.reduce((n, ch) => n + ch.sections.length, 0),
-  )
+  const allSections = computed(() => course.chapters.flatMap((ch) => ch.sections))
+  const requiredSections = computed(() => allSections.value.filter(isRequiredSection))
+
+  const totalSections = computed(() => allSections.value.length)
+  const totalRequiredSections = computed(() => requiredSections.value.length)
   const totalQuizzes = computed(() => course.chapters.length)
 
   const completedSections = computed(
     () => Object.values(state.sections).filter((s) => s.completed).length,
+  )
+  const completedRequiredSections = computed(
+    () =>
+      requiredSections.value.filter((sec) => state.sections[sec.id]?.completed).length,
   )
   const completedQuizzes = computed(
     () => Object.values(state.quizzes).filter((q) => q.completed).length,
@@ -53,6 +63,14 @@ export function useProgress() {
     const total = totalSections.value + totalQuizzes.value
     if (!total) return 0
     return Math.round(((completedSections.value + completedQuizzes.value) / total) * 100)
+  })
+
+  const requiredPercent = computed(() => {
+    const total = totalRequiredSections.value + totalQuizzes.value
+    if (!total) return 0
+    return Math.round(
+      ((completedRequiredSections.value + completedQuizzes.value) / total) * 100,
+    )
   })
 
   function sectionStatus(sid) {
@@ -92,12 +110,16 @@ export function useProgress() {
 
   function chapterProgress(cid) {
     const ch = getChapter(cid)
-    if (!ch) return { done: 0, total: 0, percent: 0, quizDone: false }
+    if (!ch) return { done: 0, total: 0, percent: 0, requiredPercent: 0, quizDone: false }
     const done = ch.sections.filter((s) => sectionStatus(s.id).completed).length
+    const reqSecs = ch.sections.filter(isRequiredSection)
+    const reqDone = reqSecs.filter((s) => sectionStatus(s.id).completed).length
     const quizDone = Boolean(quizStatus(cid).completed)
     const total = ch.sections.length + 1
     const percent = Math.round(((done + (quizDone ? 1 : 0)) / total) * 100)
-    return { done, total: ch.sections.length, percent, quizDone }
+    const reqTotal = reqSecs.length + 1
+    const requiredPercent = Math.round(((reqDone + (quizDone ? 1 : 0)) / reqTotal) * 100)
+    return { done, total: ch.sections.length, percent, requiredPercent, quizDone }
   }
 
   function isSectionUnlocked(cid, sid) {
@@ -131,10 +153,13 @@ export function useProgress() {
   return {
     state,
     totalSections,
+    totalRequiredSections,
     totalQuizzes,
     completedSections,
+    completedRequiredSections,
     completedQuizzes,
     overallPercent,
+    requiredPercent,
     sectionStatus,
     quizStatus,
     saveSectionStep,

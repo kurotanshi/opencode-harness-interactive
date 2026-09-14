@@ -4,10 +4,15 @@ export default {
   title: "OpenCode 入門",
   tagline: "先裝好、打開、連上模型——照步驟做，比只看摘要有用。",
   intro: "這一章以實驗室為主：安裝 OpenCode、打開 TUI、連模型、做第一個環境檢查，並練習接續 Session。概念短短帶過，重點是你真的按過那些鍵。",
+  outcome: "完成本章你會做出／做到：在終端機跑出 opencode --version、打開 TUI、用 /connect 與 /models 連上模型，並完成一次環境檢查 Session。",
+  youNeed: "一台可上網的電腦、終端機；安裝時可請大人陪同（尤其是貼金鑰）。",
+  minutes: 45,
+  dependsOn: [],
   sections: [
     {
       id: "1-1",
       title: "簡介：Harness 與三種寫程式助手",
+      track: "required",
       goal: "分清楚模型與 Harness，並親手在終端機確認 OpenCode 相關關鍵字。",
       steps: [
         {
@@ -32,6 +37,7 @@ export default {
         {
           type: "lab",
           title: "實驗室：確認你在學的是哪個 OpenCode",
+          track: "required",
           body: [
             "打開終端機（Windows 可用 PowerShell / Windows Terminal / WSL；macOS／Linux 用內建終端機）。照做並勾選。"
           ],
@@ -89,6 +95,7 @@ export default {
     {
       id: "1-2",
       title: "安裝與介面",
+      track: "required",
       goal: "依你的作業系統安裝 OpenCode，驗證版本，打開 TUI，並連上模型。",
       steps: [
         {
@@ -103,6 +110,7 @@ export default {
         {
           type: "lab",
           title: "實驗室 A：安裝（選你的作業系統）",
+          track: "required",
           body: [
             "只做符合你電腦的那幾步。其他系統的指令可略過，但請讀一眼。"
           ],
@@ -116,6 +124,7 @@ export default {
             },
             {
               id: "i2",
+              track: "optional",
               do: "【macOS／Linux 備選】Homebrew tap（較常保持新版本）。",
               expect: "brew 顯示已安裝 opencode。",
               command: "brew install anomalyco/tap/opencode",
@@ -130,6 +139,7 @@ export default {
             },
             {
               id: "i4",
+              track: "optional",
               do: "【任何系統・備選】已有 Node.js 時，用 npm 全域安裝。",
               expect: "npm 顯示安裝完成。",
               command: "npm i -g opencode-ai",
@@ -141,8 +151,9 @@ export default {
         {
           type: "lab",
           title: "實驗室 B：驗證並打開 TUI",
+          track: "required",
           body: [
-            "裝好後一定要驗證版本，再開介面。"
+            "裝好後一定要驗證版本，再開介面。下一章會建 harness-workshop；這一節先在任意練習資料夾打開即可。"
           ],
           tasks: [
             {
@@ -172,6 +183,7 @@ export default {
         {
           type: "lab",
           title: "實驗室 C：連上模型",
+          track: "required",
           body: [
             "沒有模型，畫面只是空駕駛艙。請接上至少一個供應商並選模型。"
           ],
@@ -205,6 +217,7 @@ export default {
     {
       id: "1-3",
       title: "第一個任務：裝工具與接續 Session",
+      track: "required",
       goal: "請助手檢查環境、練習批准高風險動作，並保存／接續 Session。",
       steps: [
         {
@@ -218,6 +231,7 @@ export default {
         {
           type: "lab",
           title: "實驗室：環境檢查小任務",
+          track: "required",
           body: [
             "在 OpenCode 裡貼上下面提示。若它要安裝全域軟體，先停下來問大人。"
           ],
@@ -232,12 +246,13 @@ export default {
             {
               id: "t2",
               do: "自己在終端機再跑一次驗證（可另開視窗）。",
-              expect: "你亲眼看到版本號，或確認真的沒裝。",
+              expect: "你親眼看到版本號，或確認真的沒裝。",
               command: "node -v && git --version",
               hint: "Windows PowerShell 可分開跑 node -v 與 git --version。"
             },
             {
               id: "t3",
+              track: "optional",
               do: "若缺工具且大人同意，再請它給「一行安裝指令」給你自己貼，而不是默默全域安裝。",
               expect: "你能複述將要執行的指令，並知道是哪個系統的。",
               hint: "安裝方式依 OS 而異；以官方文件為準。"
@@ -248,6 +263,7 @@ export default {
         {
           type: "lab",
           title: "實驗室：Session 保存與接續",
+          track: "required",
           body: [
             "Session 是這次對話與它做過的事。長任務請接續同一本。"
           ],
@@ -268,7 +284,7 @@ export default {
               id: "s3",
               do: "在舊 Session 接著說：「接續昨天的環境檢查，下一步請列出安裝 Node 的官方連結（不要執行安裝）。」",
               expect: "它接得上前文，而不是完全當作陌生人。",
-              hint: "若上下文亂掉，開新 Session，但把結論寫進筆記或 AGENTS.md。"
+              hint: "若上下文亂掉，開新 Session，但把結論寫進筆記或之後的 AGENTS.md。"
             }
           ],
           goal: "會開新 Session、找舊 Session、接續對話。"
@@ -304,73 +320,97 @@ export default {
   quiz: [
     {
       id: 'q1',
-      question: 'Harness 比較像什麼？',
+      question: '你剛才在終端機跑 opencode --version 時，成功的畫面比較像？',
       options: [
         {
           id: 'a',
-          label: '只是某一個超強模型的名字',
-          correct: false,
-          feedback: 'Harness 不是模型名稱，而是駕馭模型的整套方法與裝備：規則、權限、工具、流程等。',
+          label: '印出版本數字（例如 1.x.x），不是 command not found',
+          correct: true,
+          feedback: '對！有版本號代表指令找得到。若是 not found，要重開終端機或確認裝在同一個環境（Windows／WSL）。',
         },
         {
           id: 'b',
-          label: '方向盤、煞車、規則與工具的總稱',
-          correct: true,
-          feedback: '沒錯。有引擎還不夠，要有辦法安全、可重複地開。這也是本課一直在練的能力。',
+          label: '自動打開瀏覽器下載遊戲',
+          correct: false,
+          feedback: '版本指令只會印文字，不會自己下載遊戲。',
         },
         {
           id: 'c',
-          label: '只能在 OpenCode 裡使用的插件',
+          label: '一定要出現「Harness」三個英文字才算成功',
           correct: false,
-          feedback: 'Harness 思維可以帶到 Claude Code 或 Codex，不綁單一工具；OpenCode 只是適合練習的教室。',
+          feedback: '版本輸出通常是數字；Harness 是我們學的駕馭概念，不一定印在 --version 裡。',
         },
       ],
     },
     {
       id: 'q2',
-      question: 'OpenCode、Claude Code、Codex 的關係較接近？',
+      question: '實驗室裡你輸入 /connect 與 /models，是為了？',
       options: [
         {
           id: 'a',
-          label: '三種互相取代，只能留一個',
-          correct: false,
-          feedback: '它們比較像不同駕駛艙。學會駕馭後，換艙比較不可怕；團隊也可能同時使用多種。',
+          label: '連上供應商並選一顆能回覆的模型，讓駕駛艙有引擎',
+          correct: true,
+          feedback: '正確。你還用「回覆：pong」測過通路——有短回覆才算連線成功。',
         },
         {
           id: 'b',
-          label: '三種不同駕駛艙，都能完成類似任務',
-          correct: true,
-          feedback: '正確。重點是規則、權限與流程能不能跟著走，而不是死守某一個品牌口號。',
+          label: '把電腦恢復出廠設定',
+          correct: false,
+          feedback: '那不是這兩個斜線指令的工作。',
         },
         {
           id: 'c',
-          label: '只有付費的才叫 Agent',
+          label: '刪掉所有 Session',
           correct: false,
-          feedback: 'Agent 指會使用工具、以某種角色做事的助手，跟貴不貴沒有絕對關係。',
+          feedback: 'Session 要保留才能接續；連線與選模型不會叫你清筆記本。',
         },
       ],
     },
     {
       id: 'q3',
-      question: 'Session 最重要的用途是？',
+      question: '你請助手檢查 Node／Git 後，自己又跑了 node -v && git --version。為什麼多這一步？',
       options: [
         {
           id: 'a',
-          label: '讓對話與工作可以保存並接續',
+          label: '要用自己的眼睛驗證它說的版本是不是真的',
           correct: true,
-          feedback: '對。長任務請接續，不要無謂地撕掉筆記本；真的被錯誤假設污染了，再開新的並把結論寫進檔案。',
+          feedback: '對。Harness 包含「你負責抽查」——助手報告後，你再跑一次才算驗收。',
         },
         {
           id: 'b',
-          label: '用來把程式碼藏起來不讓別人看',
+          label: '因為指令比較好看',
           correct: false,
-          feedback: 'Session 不是保險箱。隱私要另外小心：別貼密碼、金鑰，也別把對話當唯一備份。',
+          feedback: '重點不是好看，是證據與驗收。',
         },
         {
           id: 'c',
-          label: '自動幫你繳作業',
+          label: '這樣它就會自動繳交作業',
           correct: false,
-          feedback: '它不會自動交作業。你還是要檢查結果、確認測試，並自己負責繳交。',
+          feedback: '它不會自動交作業；你仍要檢查結果。',
+        },
+      ],
+    },
+    {
+      id: 'q4',
+      question: '明天要接續「環境檢查」任務，你應該？',
+      options: [
+        {
+          id: 'a',
+          label: '打開昨天那個 Session 繼續，不要無謂撕掉筆記本',
+          correct: true,
+          feedback: '對。你在實驗室練過開新本、找舊本、接續說「接續昨天的環境檢查」。',
+        },
+        {
+          id: 'b',
+          label: '每天開全新 Session，假裝第一次見面',
+          correct: false,
+          feedback: '新 Session 較健忘；同一長任務應接續。',
+        },
+        {
+          id: 'c',
+          label: '把金鑰貼到班級群組備份',
+          correct: false,
+          feedback: '金鑰絕對不要貼到聊天室。',
         },
       ],
     },

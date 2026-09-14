@@ -541,3 +541,95 @@ button { cursor: pointer; }
   font-weight: 600;
   font-size: 0.92rem;
 }
+
+/* --- Editorial IA: outcome, track, spine, time --- */
+.outcome-banner,
+.spine-banner {
+  margin: 14px 0 18px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid #c5e0d6;
+  background: linear-gradient(135deg, #eef8f4 0%, #fffaf2 70%);
+  box-shadow: var(--shadow);
+}
+.outcome-banner.compact {
+  padding: 10px 14px;
+  margin: 10px 0 4px;
+  box-shadow: none;
+}
+.spine-banner {
+  border-color: #e0c9b0;
+  background: linear-gradient(135deg, #f8efe4 0%, #fffaf2 65%);
+}
+.outcome-kicker {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--accent-dark);
+  margin-bottom: 4px;
+}
+.outcome-text {
+  margin: 0;
+  font-size: 1.02rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+.you-need {
+  margin: 8px 0 0;
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+}
+.outcome-snip {
+  margin: 6px 0 4px;
+  font-size: 0.88rem;
+  color: var(--accent-dark);
+  line-height: 1.45;
+}
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 10px;
+}
+.dep-line {
+  margin: 4px 0 8px;
+  color: var(--ink-soft);
+}
+.pill.required {
+  background: var(--accent-soft);
+  color: var(--accent-dark);
+}
+.pill.optional {
+  background: var(--ember-soft);
+  color: var(--ember);
+}
+.pill.time {
+  background: #e8eef8;
+  color: #345;
+}
+.pill.dep {
+  background: #f3e9f8;
+  color: #6b3d7a;
+}
+.pill.micro {
+  padding: 1px 7px;
+  font-size: 0.68rem;
+  vertical-align: middle;
+}
+.lab-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.lab-do {
+  flex-wrap: wrap;
+}
+.spine-banner code,
+.outcome-banner code {
+  font-size: 0.85em;
+  background: var(--paper-2);
+  padding: 1px 6px;
+  border-radius: 6px;
+}

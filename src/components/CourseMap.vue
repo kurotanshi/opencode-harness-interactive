@@ -1,12 +1,29 @@
 <script setup>
-import { course } from '../data/course'
+import { course, chapterDependsLabels } from '../data/course'
 import { useProgress } from '../composables/useProgress'
 import ProgressBar from './ProgressBar.vue'
 
-const { chapterProgress, sectionStatus, quizStatus, overallPercent, completedSections, totalSections, completedQuizzes, totalQuizzes, resetAll } = useProgress()
+const {
+  chapterProgress,
+  sectionStatus,
+  quizStatus,
+  overallPercent,
+  requiredPercent,
+  completedSections,
+  totalSections,
+  completedRequiredSections,
+  totalRequiredSections,
+  completedQuizzes,
+  totalQuizzes,
+  resetAll,
+} = useProgress()
 
 function confirmReset() {
   if (window.confirm('要清除本機進度，從頭再學一次嗎？')) resetAll()
+}
+
+function trackLabel(sec) {
+  return sec.track === 'optional' ? '選做' : '必做'
 }
 </script>
 
@@ -15,28 +32,52 @@ function confirmReset() {
     <p class="page-kicker">課程地圖</p>
     <h2 class="page-title">{{ course.title }}</h2>
     <p class="lede">{{ course.subtitle }} {{ course.audience }} 一次只走一小步，像學騎腳踏車：先握住把手，再學會轉彎。</p>
+
+    <aside class="spine-banner" aria-label="共用專案">
+      <div class="outcome-kicker">{{ course.spine.title }}</div>
+      <p>{{ course.spine.body }}</p>
+      <p class="tiny muted" style="margin:8px 0 0">
+        Unix／macOS：<code>{{ course.spine.pathUnix }}</code>
+       　·　Windows：<code>{{ course.spine.pathWin }}</code>
+      </p>
+    </aside>
+
     <div class="home-actions">
+      <span class="pill required">必做 {{ completedRequiredSections }}/{{ totalRequiredSections }}</span>
       <span class="pill">單元 {{ completedSections }}/{{ totalSections }}</span>
       <span class="pill quiz">關卡 {{ completedQuizzes }}/{{ totalQuizzes }}</span>
       <button class="btn linkish" type="button" @click="confirmReset">重設進度</button>
     </div>
-    <ProgressBar :value="overallPercent" label="整體進度（存在這台裝置的瀏覽器裡）" />
+    <div style="display:grid; gap:10px; margin-bottom: 8px">
+      <ProgressBar :value="requiredPercent" label="必做進度（建議先顧好這條）" />
+      <ProgressBar :value="overallPercent" label="整體進度（含選做・存在這台裝置的瀏覽器裡）" />
+    </div>
 
     <div class="chapters" style="margin-top: 22px">
       <article v-for="ch in course.chapters" :key="ch.id" class="chapter-card">
-        <div style="display:flex; justify-content:space-between; gap:8px; align-items:center">
+        <div style="display:flex; justify-content:space-between; gap:8px; align-items:center; flex-wrap:wrap">
           <span class="ch-num">第 {{ ch.number }} 章</span>
-          <span class="pill" :class="{ done: chapterProgress(ch.id).percent === 100 }">{{ chapterProgress(ch.id).percent }}%</span>
+          <span style="display:flex; gap:6px; flex-wrap:wrap">
+            <span v-if="ch.minutes" class="pill time">約 {{ ch.minutes }} 分</span>
+            <span class="pill" :class="{ done: chapterProgress(ch.id).percent === 100 }">{{ chapterProgress(ch.id).percent }}%</span>
+          </span>
         </div>
         <h2>
           <router-link :to="{ name: 'chapter', params: { cid: ch.id } }">{{ ch.title }}</router-link>
         </h2>
         <p class="tagline">{{ ch.tagline }}</p>
-        <ProgressBar :value="chapterProgress(ch.id).percent" />
+        <p v-if="ch.outcome" class="outcome-snip">🎯 {{ ch.outcome }}</p>
+        <p v-if="chapterDependsLabels(ch).length" class="tiny dep-line">
+          建議先完成：{{ chapterDependsLabels(ch).join('、') }}
+        </p>
+        <ProgressBar :value="chapterProgress(ch.id).requiredPercent" />
         <ul class="section-list">
           <li v-for="sec in ch.sections" :key="sec.id">
             <router-link :to="{ name: 'section', params: { cid: ch.id, sid: sec.id } }">
-              <span>{{ sec.id }} {{ sec.title }}</span>
+              <span>
+                <span class="pill micro" :class="sec.track === 'optional' ? 'optional' : 'required'">{{ trackLabel(sec) }}</span>
+                {{ sec.id }} {{ sec.title }}
+              </span>
               <span class="tiny" :class="{ muted: !sectionStatus(sec.id).completed }">{{ sectionStatus(sec.id).completed ? '完成' : '未完成' }}</span>
             </router-link>
           </li>

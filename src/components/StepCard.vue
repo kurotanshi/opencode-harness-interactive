@@ -47,6 +47,12 @@ const allLabChecked = () => {
   return tasks.length > 0 && tasks.every((t) => labChecks.value[t.id])
 }
 
+function taskTrack(task) {
+  if (task.track === 'optional') return 'optional'
+  if (props.step.track === 'optional') return 'optional'
+  return 'required'
+}
+
 async function copyCommand(text, id) {
   try {
     await navigator.clipboard.writeText(text)
@@ -138,7 +144,14 @@ async function copyCommand(text, id) {
     </div>
 
     <div v-if="isLab" class="lab">
-      <div class="lab-badge">動手實驗室</div>
+      <div class="lab-badge-row">
+        <div class="lab-badge">動手實驗室</div>
+        <span
+          v-if="step.track === 'optional'"
+          class="pill optional"
+        >選做</span>
+        <span v-else class="pill required">必做</span>
+      </div>
       <p v-if="step.goal" class="lab-goal"><strong>目標：</strong>{{ step.goal }}</p>
       <ol class="lab-tasks">
         <li
@@ -159,6 +172,9 @@ async function copyCommand(text, id) {
           <div class="lab-main">
             <div class="lab-do">
               <span class="lab-num">{{ i + 1 }}</span>
+              <span class="pill micro" :class="taskTrack(task) === 'optional' ? 'optional' : 'required'">
+                {{ taskTrack(task) === 'optional' ? '選做' : '必做' }}
+              </span>
               <span>{{ task.do }}</span>
             </div>
             <div v-if="task.command" class="lab-cmd">
