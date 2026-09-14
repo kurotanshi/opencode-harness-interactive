@@ -25,6 +25,14 @@ npm run preview
 
 `npm run build` 會產出 `dist/`，可丟到任何靜態網站空間。
 
+## GitHub Pages
+
+線上預覽：<https://kurotanshi.github.io/opencode-harness-interactive/>
+
+推送到 `main` 後，GitHub Actions 會建置並部署到 GitHub Pages。
+
+此 repo 為 **private**。私人倉庫的 GitHub Pages 通常需要 GitHub Pro（或以上方案）。若方案不支援，部署 workflow 可能失敗，或網站無法公開。若 Pages 維持 private-only，只有有權限的協作者能看到該站，訪客會被要求登入 GitHub。
+
 ## 進度怎麼運作
 
 - 進度存在**這台裝置、這個瀏覽器**的 `localStorage`（鍵名：`opencode-harness-progress-v1`）。
