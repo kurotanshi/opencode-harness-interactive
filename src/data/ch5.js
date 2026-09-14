@@ -131,12 +131,12 @@ export default {
           type: 'flow',
           title: '概念步驟',
           flow: [
-            { n: 1, title: '安裝 Playwright CLI', body: '依官方文件安裝。這是本機的瀏覽器遙控器。' },
-            { n: 2, title: '安裝 Skills', body: '例如 playwright-cli install --skills。OpenCode 會在技能資料夾發現它。' },
-            { n: 3, title: '讓助手先載入技能卡', body: '它看到短描述，真正操作前再讀完整 SKILL.md。' },
+            { n: 1, title: '安裝 Playwright CLI', body: '依 Playwright 官方文件安裝，例如 npm i -g @playwright/cli@latest。這是本機的瀏覽器遙控器。' },
+            { n: 2, title: '安裝 Skills', body: '例如 playwright-cli install --skills。技能常落到 .claude/skills 或 .agents/skills；OpenCode 也能讀這些相容路徑，也可放到 .opencode/skills。' },
+            { n: 3, title: '讓助手先載入技能卡', body: '它看到短描述，真正操作前再用 skill 工具讀完整 SKILL.md。' },
             { n: 4, title: '用短指令做事', body: '開頁、snapshot、click。上下文比較輕，留給真正的程式碼。' },
           ],
-          note: 'MCP 仍適合需要持續狀態、反覆推理頁面結構的探索。CLI + Skill 較適合「邊寫程式邊點一下頁面」。',
+          note: 'MCP 仍適合需要持續狀態、反覆推理頁面結構的探索。CLI + Skill 較適合「邊寫程式邊點一下頁面」。官方文件可能變動，請核對 Playwright 與 OpenCode 最新說明。',
         },
         {
           type: 'choose',

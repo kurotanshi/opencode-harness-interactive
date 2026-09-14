@@ -16,7 +16,7 @@ export default {
           body: [
             '你平常打字對話的對象，是主 Agent（primary）。OpenCode 內建 Build 與 Plan。',
             'Subagent 是主 Agent 可以派出的幫手，也可以用 @名字 手動叫出來。',
-            '內建常見幫手包含 General（較通用）、Explore（只看不改，適合找檔）、以及只讀的研究型幫手。',
+            '內建三個常見幫手：General（較通用）、Explore（只讀，適合找檔）、Scout（只讀，適合查外部文件與依賴原始碼）。',
           ],
         },
         {
@@ -126,7 +126,7 @@ export default {
             { tag: '隊長', title: 'Build / Plan', body: '跟你對齊目標、分配工作、整合結果。' },
             { tag: '偵察', title: 'Explore', body: '快速找檔、回答「程式在哪裡」。通常只讀。' },
             { tag: '審查', title: 'Reviewer', body: '獨立看變更。指出風險，不直接改。' },
-            { tag: '研究', title: 'Docs / Scout', body: '去讀外部文件或套件原始碼，再帶回重點。' },
+            { tag: '研究', title: 'Scout', body: '只讀幫手：查外部文件、依賴倉庫，再帶回重點。不要拿它改你的專案。' },
           ],
         },
         {

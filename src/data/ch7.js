@@ -53,15 +53,15 @@ export default {
           title: '三種付錢（或沒付錢）的路',
           cards: [
             { tag: '免費額度', title: '試吃', body: '適合摸索。可能突然沒了、排隊、或模型較弱。不要把正式作業賭在不穩定的試吃上。' },
-            { tag: '訂閱', title: '月票', body: '像 OpenCode Go / Zen 這類方案：連上後可選一批被整理過的模型。仍要看條款與額度。' },
-            { tag: 'API', title: '按用量計費', body: '用多少算多少。適合控制成本，但金鑰要保管好。' },
+            { tag: '訂閱', title: '月票', body: '像 OpenCode Go：固定月費，內含一籃子整理過的編碼模型，但仍有用量上限。要看條款。' },
+            { tag: '儲值 / API', title: '按用量計費', body: '像 OpenCode Zen（先儲值再按量扣）或其他 Provider 的 API Key。用多少算多少，金鑰要保管好。' },
           ],
         },
         {
           type: 'text',
           title: '你會聽到的名字',
           body: [
-            'OpenCode Zen、OpenCode Go：由 OpenCode 整理的模型通道。先在主控台取得金鑰，再在 TUI 用 /connect 接上，用 /models 挑選。',
+            'OpenCode Zen（儲值按量）與 OpenCode Go（月費訂閱）都是官方整理的模型通道。先在主控台取得金鑰，再在 TUI 用 /connect 選對應項目，用 /models 挑選。',
             'DeepSeek、GLM、Kimi：常見且更新很快的編碼模型家族，可能出現在 Zen / Go 或其他 Provider。',
             '實際名單會變。選的時候看官方列表，不要把這頁當永久菜單。',
           ],

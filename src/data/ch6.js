@@ -84,9 +84,9 @@ export default {
           type: 'text',
           title: '斜線是法術書',
           body: [
-            '在對話裡輸入 / 會打開指令。例如 /init、/undo、/models、/connect、/help。',
-            '快捷鍵可在設定裡改。例如切換 Agent、打開命令面板。',
-            '自訂 Command 通常是 Markdown，放在 .opencode/commands/ 或全域 commands 資料夾。檔名會變成 /指令。',
+            '在對話裡輸入 / 會打開指令。例如 /init、/undo、/redo、/models、/connect、/share、/help。',
+            '快捷鍵多半寫在 tui.json（或舊設定裡的 keybinds）。例如切換 Agent、打開命令面板。',
+            '自訂 Command 通常是 Markdown，放在 .opencode/commands/ 或 ~/.config/opencode/commands/。檔名會變成 /指令。',
           ],
         },
         {
